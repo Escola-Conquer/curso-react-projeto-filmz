@@ -19,9 +19,9 @@ export function WishlistProvider(props: IWishlistProviderprops): JSX.Element {
     return []
   })
 
-  function isMovieInWishlist(movie: IMovieProps): boolean {
+  function isMovieInWishlist(movieId: number): boolean {
     const movieFound = wishlist.find(
-      (wishlistFilm) => wishlistFilm.id === movie.id
+      (wishlistFilm) => wishlistFilm.id === movieId
     )
 
     if (movieFound) {
@@ -32,7 +32,7 @@ export function WishlistProvider(props: IWishlistProviderprops): JSX.Element {
   }
 
   function handleAddOrRemoveMovieOnWishlist(movie: IMovieProps) {
-    if (isMovieInWishlist(movie)) {
+    if (isMovieInWishlist(movie.id)) {
       setWishlist((prevState) =>
         prevState.filter((wishlistFilm) => wishlistFilm.id !== movie.id)
       )
