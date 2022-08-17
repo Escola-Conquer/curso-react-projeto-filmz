@@ -50,7 +50,7 @@ export const Container = styled.main`
     }
   }
 
-  #films {
+  #movies {
     padding: 2rem 4.5rem;
 
     h3 {
