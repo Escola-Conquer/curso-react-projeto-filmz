@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { FiCameraOff, FiCheck, FiLink, FiPlus } from "react-icons/fi"
+
+import { Button } from "../components/Button"
+import { ButtonVariants } from "../components/Button/types"
+import { Loading } from "../components/Loading"
+
+import { useWishlist } from "../hooks/useWishlist"
 
 import api from "../services/api"
 
+import { IMovieRequestProps } from "../interface/Movie"
+
 import * as Styles from "../styles/pages/Movie"
-import { FiCameraOff, FiCheck, FiLink, FiPlus } from "react-icons/fi"
-import { Button } from "../components/Button"
-import { ButtonVariants } from "../components/Button/types"
-import { useWishlist } from "../hooks/useWishlist"
-import { IMovieProps } from "../hooks/useWishlist/types"
 
 export function Movie() {
   const { id } = useParams()
   const { isMovieInWishlist, handleAddOrRemoveMovieOnWishlist } = useWishlist()
 
-  const [movie, setMovie] = useState<IMovieProps>()
+  const currentUrl = window.location.href
+
+  const [isLoading, setIsLoading] = useState(true)
+  const [movie, setMovie] = useState<IMovieRequestProps>()
   const [isLinkCopiedToClipboard, setIsLinkCopiedToClipboard] = useState(false)
 
   const movieYearRelease = movie && new Date(movie.release_date).getFullYear()
@@ -25,15 +32,18 @@ export function Movie() {
   function handleCopyLinkToClipboard() {
     setIsLinkCopiedToClipboard(true)
 
-    navigator.clipboard.writeText(
-      `${import.meta.env.VITE_SITE_URL}/movie/${id}`
-    )
+    navigator.clipboard.writeText(currentUrl)
   }
 
   useEffect(() => {
-    api.get<IMovieProps>(`/movie/${id}`).then((response) => {
-      setMovie(response.data)
-    })
+    api
+      .get<IMovieRequestProps>(`/movie/${id}`)
+      .then((response) => {
+        setMovie(response.data)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }, [])
 
   useEffect(() => {
@@ -46,7 +56,11 @@ export function Movie() {
 
   return (
     <Styles.Container>
-      {movie ? (
+      {isLoading ? (
+        <div className="loading-wrapper">
+          <Loading />
+        </div>
+      ) : (
         <section id="presentation">
           <div className="movie-poster-wrapper">
             {movie?.poster_path ? (
@@ -130,8 +144,6 @@ export function Movie() {
             </footer>
           </div>
         </section>
-      ) : (
-        <h1>oi</h1>
       )}
     </Styles.Container>
   )

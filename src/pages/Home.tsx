@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 
 import { MovieCard } from "../components/MovieCard"
+import { Loading } from "../components/Loading"
 
 import { useWishlist } from "../hooks/useWishlist"
 
@@ -8,10 +9,12 @@ import api from "../services/api"
 
 import { ITopTenWeeklyMovies } from "../interface/Home"
 
-import * as Styles from "../styles/pages/home"
+import * as Styles from "../styles/pages/Home"
 
 export function Home() {
   const { wishlist, handleAddOrRemoveMovieOnWishlist } = useWishlist()
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const [top10WeeklyMovies, setTop10WeeklyMovies] = useState<
     ITopTenWeeklyMovies[]
@@ -22,12 +25,17 @@ export function Home() {
   }
 
   useEffect(() => {
+    setIsLoading(true)
+
     api
-      .get("/trending/movie/week", { params: { total_results: 2 } })
+      .get("/trending/movie/week")
       .then((response) => {
         setTop10WeeklyMovies(
           response.data.results.slice(0, 10).map((movie: any) => movie)
         )
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
   }, [])
 
@@ -47,29 +55,32 @@ export function Home() {
         </div>
       </section>
 
-      <section id="films">
+      <section id="movies">
         <h3>Top 10 da semana</h3>
 
         <div className="cards">
-          {top10WeeklyMovies.map((movie) => {
-            return (
-              <MovieCard
-                key={movie.id}
-                movie={{
-                  id: movie.id,
-                  poster_path: movie.poster_path,
-                  title: movie.title,
-                  overview: movie.overview,
-                  genre_ids: movie.genre_ids,
-                  vote_average: movie.vote_average,
-                  vote_count: movie.vote_count,
-                }}
-                handleAddMovieOnWishlist={handleAddOrRemoveMovieOnWishlist}
-                inWishlist={getTop10WeeklyMoviesIds().includes(movie.id)}
-                className="card"
-              />
-            )
-          })}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            top10WeeklyMovies.map((movie) => {
+              return (
+                <MovieCard
+                  key={movie.id}
+                  movie={{
+                    id: movie.id,
+                    poster_path: movie.poster_path,
+                    title: movie.title,
+                    overview: movie.overview,
+                    vote_average: movie.vote_average,
+                    vote_count: movie.vote_count,
+                  }}
+                  handleAddMovieOnWishlist={handleAddOrRemoveMovieOnWishlist}
+                  inWishlist={getTop10WeeklyMoviesIds().includes(movie.id)}
+                  className="card"
+                />
+              )
+            })
+          )}
         </div>
       </section>
     </Styles.Container>
