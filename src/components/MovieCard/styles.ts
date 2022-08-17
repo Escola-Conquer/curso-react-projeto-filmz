@@ -12,15 +12,30 @@ export const Container = styled.div`
 
   border-radius: 8px;
 
-  img {
-    height: 100%;
+  .movie-poster-wrapper {
+    width: 100%;
+    max-width: 190px;
+    height: 290px;
 
-    object-fit: contain;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  
+      border-radius: 8px 0 0 8px;
+    }
 
-    border-radius: 8px 0 0 8px;
+    p {
+      margin-top: 0.5rem;
+    }
   }
 
-  > div {
+  .info-wrapper {
     display: flex;
     flex: 1;
     flex-direction: column;
