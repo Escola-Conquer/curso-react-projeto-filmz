@@ -6,6 +6,7 @@ export const Container = styled.button<IContainerProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 
   color: ${({ theme }) => theme.colors.white};
 
@@ -15,6 +16,10 @@ export const Container = styled.button<IContainerProps>`
   padding: calc(0.5rem - 4px) 1rem;
   
   transition: background-color 0.2s, border-color 0.2s;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
   
   &.${ButtonVariants.Primary} {
     background: ${({ theme }) => theme.colors.primary[500]};
