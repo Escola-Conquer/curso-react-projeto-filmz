@@ -50,5 +50,4 @@ export const Container = styled.nav`
       border-radius: 4px 0 0 4px;
     }
   }
-
 `

@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react"
-import { FaHome, FaStar } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
+import { FaBars, FaHome } from "react-icons/fa"
 
 import { Button } from "../Button"
 import { Link } from "../Link"
@@ -9,10 +10,16 @@ import Logo from "../../assets/logo.png"
 import * as Styles from "./styles"
 
 export function Header() {
+  const navigate = useNavigate()
+
   const [search, setSearch] = useState("")
 
   function handleSearch(event: FormEvent) {
     event.preventDefault()
+
+    if (search) {
+      navigate(`/search?keyword=${search}`)
+    }
   }
 
   return (
@@ -30,8 +37,8 @@ export function Header() {
           Home
         </Link>
         <Link to="/wishlist">
-          <FaStar />
-          Meus favoritos
+          <FaBars />
+          Minha lista
         </Link>
       </div>
 
@@ -43,7 +50,7 @@ export function Header() {
           onChange={(event) => setSearch(event.target.value)}
         />
 
-        <Button style={{ borderRadius: "0 4px 4px 0" }}>Pesquisar</Button>
+        <Button style={{ borderRadius: "0 4px 4px 0" }} type="submit">Pesquisar</Button>
       </form>
     </Styles.Container>
   )
