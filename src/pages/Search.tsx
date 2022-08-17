@@ -1,7 +1,6 @@
-import { FormEvent, useEffect, useState } from "react"
-import { useParams, useSearchParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useSearchParams } from "react-router-dom"
 
-import { Button } from "../components/Button"
 import { Loading } from "../components/Loading"
 import { MovieCard } from "../components/MovieCard"
 import { useWishlist } from "../hooks/useWishlist"
@@ -12,26 +11,11 @@ import api from "../services/api"
 import * as Styles from "../styles/pages/Search"
 
 export function Search() {
-  const [keyword, setKeyword] = useSearchParams()
+  const [keyword] = useSearchParams()
   const { handleAddOrRemoveMovieOnWishlist, isMovieInWishlist } = useWishlist()
 
-  const [search, setSearch] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [movies, setMovies] = useState<IMovieProps[]>([])
-
-  function handleSearch(event: FormEvent) {
-    event.preventDefault()
-
-    setKeyword({ keyword: search })
-    // api
-    //   .get("/search/movie", { params: { query: keyword } })
-    //   .then((response) => {
-    //     setMovies(response.data.results)
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false)
-    //   })
-  }
 
   useEffect(() => {
     if (keyword.get('keyword')) {
@@ -71,12 +55,11 @@ export function Search() {
                     poster_path: movie.poster_path,
                     title: movie.title,
                     overview: movie.overview,
-                    genre_ids: movie.genre_ids,
                     vote_average: movie.vote_average,
                     vote_count: movie.vote_count,
                   }}
                   handleAddMovieOnWishlist={handleAddOrRemoveMovieOnWishlist}
-                  inWishlist={isMovieInWishlist(movie)}
+                  inWishlist={isMovieInWishlist(movie.id)}
                   className="card"
                 />
               )
