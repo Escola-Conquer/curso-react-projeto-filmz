@@ -47,10 +47,8 @@ export function Home() {
           <h1>O lugar perfeito para ter sempre um filme na manga!</h1>
 
           <p>
-            Nunca mais fique parado na frente do seu streaming perdendo tempo
-            procurando por filmes legais. Aqui você pode salvar os filmes que te
-            chamam a atenção e ver o que todos estão vendo e achando mais legal
-            no momento!
+            Veja o que as pessoas estão curtindo com a seleção do top 10 da
+            semana e pesquise por filmes para saber um pouco mais sobre eles!
           </p>
         </div>
       </section>
