@@ -41,7 +41,7 @@ export function Header() {
           Minha lista
         </Link>
       </div>
-
+    
       <form className="search-wrapper" onSubmit={handleSearch}>
         <input
           type="text"
