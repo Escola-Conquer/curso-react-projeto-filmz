@@ -33,9 +33,12 @@ export function WishlistProvider(props: IWishlistProviderprops): JSX.Element {
 
   function handleAddOrRemoveMovieOnWishlist(movie: IMovieProps) {
     if (isMovieInWishlist(movie.id)) {
-      setWishlist((prevState) =>
-        prevState.filter((wishlistFilm) => wishlistFilm.id !== movie.id)
+      const filteredWishlist = wishlist.filter(
+        (wishlistFilm) => wishlistFilm.id !== movie.id
       )
+
+      setWishlist(filteredWishlist)
+      localStorage.setItem("wishlist", JSON.stringify(filteredWishlist))
 
       return
     }

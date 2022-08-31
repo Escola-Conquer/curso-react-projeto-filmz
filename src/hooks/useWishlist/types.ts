@@ -1,10 +1,5 @@
 import { ReactNode } from "react"
 
-interface IGenresProps {
-  id: number
-  name: string
-}
-
 export interface IMovieProps {
   id: number
   title: string
