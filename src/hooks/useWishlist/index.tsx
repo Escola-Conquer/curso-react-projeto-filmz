@@ -70,5 +70,3 @@ export function useWishlist(): IWishlistContextData {
 
   return context
 }
-
-export default WishlistContext

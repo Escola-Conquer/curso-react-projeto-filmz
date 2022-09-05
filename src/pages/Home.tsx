@@ -12,17 +12,13 @@ import { ITopTenWeeklyMovies } from "../interface/Home"
 import * as Styles from "../styles/pages/Home"
 
 export function Home() {
-  const { wishlist, handleAddOrRemoveMovieOnWishlist } = useWishlist()
+  const { handleAddOrRemoveMovieOnWishlist, isMovieInWishlist } = useWishlist()
 
   const [isLoading, setIsLoading] = useState(false)
 
   const [top10WeeklyMovies, setTop10WeeklyMovies] = useState<
     ITopTenWeeklyMovies[]
   >([])
-
-  function getTop10WeeklyMoviesIds() {
-    return wishlist?.map((movie) => movie.id)
-  }
 
   useEffect(() => {
     setIsLoading(true)
@@ -73,7 +69,7 @@ export function Home() {
                     vote_count: movie.vote_count,
                   }}
                   handleAddMovieOnWishlist={handleAddOrRemoveMovieOnWishlist}
-                  inWishlist={getTop10WeeklyMoviesIds().includes(movie.id)}
+                  inWishlist={isMovieInWishlist(movie.id)}
                   className="card"
                 />
               )
